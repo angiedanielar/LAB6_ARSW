@@ -2,7 +2,9 @@ var app = (function () {
 
     var _cinema;
     var _date;
+    var _hour;
     var _module = "js/apimock.js";
+    var _funcionActual;
 
     function _setCinemaName(cinema) {
         _cinema = $("cinema");
@@ -47,6 +49,7 @@ var app = (function () {
     function openSeats(functionName, hour) {
         _cinema = $("#cinema").val();
         var fullDate = _date.concat(" ", hour);
+        var _funcionActual = functionName;
         $("#availabilityOf").text("Availabilty of: " + functionName);
         document.getElementById('availabilityInfo').style.visibility = "visible";
         //F
@@ -96,6 +99,31 @@ var app = (function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.beginPath();
     }
+
+
+    function saveUpdateFunction(_cinema, _funcionActual) {
+        _hour = $("#hour").val();
+        _date = _date[0]+_hour;
+        var putPromise = $.ajax({
+            url: "/cinema/"+cinema_name+"/"+_funcionActual,
+            type: 'PUT',
+            data: cinemas,
+            contentType: "application/json"
+        });
+
+        putPromise.then(
+            function () {
+                console.info("funcionó");
+            },
+
+            function () {
+                console.info("error");
+            }
+        );
+
+        return putPromise;
+    }
+
 
     return {
         getFunctions: getFunctions,

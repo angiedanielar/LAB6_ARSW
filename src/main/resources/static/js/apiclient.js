@@ -22,6 +22,8 @@ apiclient = (function () {
         });
     }
 
+
+
     return {
         getFunctionsByCinema: getFunctionsByCinema,
         getFunctionsByCinemaAndDate: getFunctionsByCinemaAndDate,
