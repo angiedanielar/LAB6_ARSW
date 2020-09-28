@@ -2,9 +2,11 @@ var app = (function () {
 
     var _cinema;
     var _date;
+    var _module = "js/apiclient.js";
     var _hour;
-    var _module = "js/apimock.js";
-    var _funcionActual;
+    var _funcion;
+    var _seats = [[true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true]];
+
 
     function _setCinemaName(cinema) {
         _cinema = $("cinema");
@@ -43,18 +45,18 @@ var app = (function () {
         _cinema = $("#cinema").val();
         _date = $("#date").val();
         $("#cinemaSelected").text("Cinema Selected: " + _cinema);
-        apimock.getFunctionsByCinemaAndDate(_cinema, _date, _mapOneByOne)
+        apiclient.getFunctionsByCinemaAndDate(_cinema, _date, _mapOneByOne)
     }
 
     function openSeats(functionName, hour) {
+        _funcion = functionName;
+        _hour = hour;
         _cinema = $("#cinema").val();
-        var fullDate = _date.concat(" ", hour);
-        var _funcionActual = functionName;
         $("#availabilityOf").text("Availabilty of: " + functionName);
         document.getElementById('availabilityInfo').style.visibility = "visible";
         //F
         $.getScript(_module, function () {
-            apimock.getFunctionByFunctionNameAndDate(_cinema, fullDate, functionName, _updateCanvas);
+            apiclient.getFunctionByFunctionNameAndDate(_cinema, _date+" "+_hour, _updateCanvas);
         });
     }
 
@@ -100,34 +102,32 @@ var app = (function () {
         ctx.beginPath();
     }
 
-
-    function saveUpdateFunction(_cinema, _funcionActual) {
-        _hour = $("#hour").val();
-        _date = _date[0]+_hour;
-        var putPromise = $.ajax({
-            url: "/cinema/"+cinema_name+"/"+_funcionActual,
-            type: 'PUT',
-            data: cinemas,
-            contentType: "application/json"
+    function saveUpdate(){
+        $.getScript(_module, function(){
+            apiclient.getFunctionByFunctionNameAndDate(_cinema,_date+" "+_hour, _funcion, _update);
         });
-
-        putPromise.then(
-            function () {
-                console.info("funcionó");
-            },
-
-            function () {
-                console.info("error");
-            }
-        );
-
-        return putPromise;
     }
 
+    function _update(f){
+        f.date = _date+" "+$("#_hour").val();
+        _hour = $("#hour").val();
+        _date = $("#date").val();
+        console.log(f);
+        $.getScript(_module, function () {
+            apiclient.saveUpdateFunction(_cinema, f, _actualizar);
+        });
+    }
+
+    function _actualizar(){
+        $.getScript(_module, function(){
+            apiclient.getFunctionsByCinemaAndDate(_cinema, _date, _map);
+        });
+    }
 
     return {
         getFunctions: getFunctions,
-        openSeats: openSeats
+        openSeats: openSeats,
+        saveUpdate: saveUpdate
     };
 
 })();

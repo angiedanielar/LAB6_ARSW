@@ -42,13 +42,15 @@ public class Cinema {
     public List<CinemaFunction> getFunctionsDate(String date) throws CinemaException {
         List<CinemaFunction> functionsDate = new ArrayList<>();
         for (CinemaFunction func : functions) {
-            if (func.getDate().equals(date)) {
+            String fecha = func.getDate().split(" ")[0];
+            if (fecha.equals(date)){
                 functionsDate.add(func);
             }
+            else{
+                throw new CinemaException("No existen funciones en esta fecha");
+            }
         }
-        if (functionsDate.isEmpty()) {
-            throw new CinemaException("No hay funciones en esta hora");
-        }
+
         return functionsDate;
     }
 
@@ -105,4 +107,14 @@ public class Cinema {
         return "Cinema{" + "name=" + name + ", functions=" + functions + '}';
     }
 
+    public CinemaFunction getFunctionDateAndMovie(String date, String moviename)  throws CinemaException {
+        List<CinemaFunction> function = getFunctionsDate(date);
+
+        for (CinemaFunction f: function){
+            if (f.getMovie().getName().equals(moviename)){
+                return f;
+            }
+        }
+        throw new CinemaException("No exists a function with that movie name");
+    }
 }

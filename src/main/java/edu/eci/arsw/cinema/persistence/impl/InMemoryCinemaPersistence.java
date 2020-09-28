@@ -34,25 +34,34 @@ public class InMemoryCinemaPersistence implements CinemaPersitence {
 
     public InMemoryCinemaPersistence() {
         //load stub data
-        String functionDate = "2018-12-18 15:30";
+        String functionDate1 = "2018-12-18 15:30";
+        String functionDate2 = "2018-12-18 17:00";
+        String functionDate3 = "2018-12-18 10:00";
         CopyOnWriteArrayList<CinemaFunction> functions1 = new CopyOnWriteArrayList<>();
         CopyOnWriteArrayList<CinemaFunction> functions2 = new CopyOnWriteArrayList<>();
         CopyOnWriteArrayList<CinemaFunction> functions3 = new CopyOnWriteArrayList<>();
-        CinemaFunction funct1 = new CinemaFunction(new Movie("SuperHeroes Movie", "Action"), functionDate);
-        CinemaFunction funct2 = new CinemaFunction(new Movie("The Night", "Horror"), functionDate);
-        CinemaFunction funct3 = new CinemaFunction(new Movie("Coraline", "Horror"), functionDate);
-        CinemaFunction funct4 = new CinemaFunction(new Movie("Inception", "Suspense"), functionDate);
-        CinemaFunction funct5 = new CinemaFunction(new Movie("Shrek", "Comedy"), functionDate);
-        CinemaFunction funct6 = new CinemaFunction(new Movie("Shrek 2", "Comedy"), functionDate);
+        CinemaFunction funct1 = new CinemaFunction(new Movie("SuperHeroes Movie", "Action"), functionDate1);
+        CinemaFunction funct2 = new CinemaFunction(new Movie("The Night", "Horror"), functionDate1);
+        CinemaFunction funct3 = new CinemaFunction(new Movie("Coraline", "Horror"), functionDate2);
+        CinemaFunction funct4 = new CinemaFunction(new Movie("Inception", "Suspense"), functionDate2);
+        CinemaFunction funct5 = new CinemaFunction(new Movie("Shrek", "Comedy"), functionDate3);
+        CinemaFunction funct6 = new CinemaFunction(new Movie("Shrek 2", "Comedy"), functionDate3);
+        CinemaFunction funct7 = new CinemaFunction(new Movie("The Enigma", "Drama"), functionDate1);
+        CinemaFunction funct8 = new CinemaFunction(new Movie("The Enigma 2", "Drama"), functionDate1);
+
         functions1.add(funct1);
         functions1.add(funct2);
         functions2.add(funct3);
         functions2.add(funct4);
         functions3.add(funct5);
         functions3.add(funct6);
+        functions1.add(funct7);
+        functions1.add(funct8);
+
         Cinema c1 = new Cinema("cinemaX", functions1);
         Cinema c2 = new Cinema("Cine", functions2);
         Cinema c3 = new Cinema("SuperCine", functions3);
+
         cinemas.put("cinemaX", c1);
         cinemas.put("Cine", c2);
         cinemas.put("SuperCine", c3);
@@ -93,6 +102,7 @@ public class InMemoryCinemaPersistence implements CinemaPersitence {
     //La fecha y el cine a buscar no pueden estar vacios. Y el cine debe existir.
     @Override
     public List<CinemaFunction> getFunctionsbyCinemaAndDate(String cinema, String date) throws CinemaPersistenceException {
+
         if (cinema == null) {
             throw new CinemaPersistenceException("El cinema a buscar no puede estar vacio");
         }
@@ -108,6 +118,34 @@ public class InMemoryCinemaPersistence implements CinemaPersitence {
 
         try {
             return cine.getFunctionsDate(date);
+        } catch (CinemaException ex) {
+            throw new CinemaPersistenceException(ex.getMessage(), ex);
+        }
+    }
+
+    //La fecha y el cine a buscar no pueden estar vacios. Y el cine debe existir.
+    @Override
+    public CinemaFunction getFunctionbyCinemaAndDateAndMovie (String cinema, String date, String moviename) throws CinemaPersistenceException {
+
+        if (cinema == null) {
+            throw new CinemaPersistenceException("El cinema a buscar no puede estar vacio");
+        }
+
+        if (date == null) {
+            throw new CinemaPersistenceException("La fecha a buscar no puede estar vacia");
+        }
+
+        if (moviename == null) {
+            throw new CinemaPersistenceException("La funcionn a buscar no puede estar vacia");
+        }
+
+        Cinema cine = getCinemaByName(cinema);
+        if (cine == null) {
+            throw new CinemaPersistenceException("El cinema que busca no existe");
+        }
+
+        try {
+            return cine.getFunctionDateAndMovie(date, moviename);
         } catch (CinemaException ex) {
             throw new CinemaPersistenceException(ex.getMessage(), ex);
         }

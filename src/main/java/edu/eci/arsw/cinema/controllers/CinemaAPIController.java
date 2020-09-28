@@ -60,9 +60,9 @@ public class CinemaAPIController {
     }
 
     @RequestMapping(value = "/{name}/{date}/{moviename}", method = RequestMethod.GET)
-    public ResponseEntity<?> getFunctionsbyCinemaAndDateAndName(@PathVariable String name, @PathVariable String date) {
+    public ResponseEntity<?> getFunctionsbyCinemaAndDateAndName(@PathVariable String name, @PathVariable String date, @PathVariable String moviename) {
         try {
-            return new ResponseEntity<>(cinemaServices.getFunctionsbyCinemaAndDate(name, date), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(cinemaServices.getFunctionbyCinemaAndDateAndMovie(name, date, moviename), HttpStatus.ACCEPTED);
         } catch (CinemaException ex) {
             Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No hay funciones con en ese nombre", HttpStatus.NOT_FOUND);

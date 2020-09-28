@@ -160,4 +160,11 @@ public class CinemaServices {
         cps.saveCinema(cinema);
     }
 
+    public Object getFunctionbyCinemaAndDateAndMovie(String name, String date, String moviename) throws CinemaException {
+        try {
+            return cps.getFunctionbyCinemaAndDateAndMovie(name, date, moviename);
+        } catch (CinemaPersistenceException ex) {
+            throw new CinemaException(ex.getMessage(), ex);
+        }
+    }
 }
