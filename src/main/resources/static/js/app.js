@@ -5,33 +5,9 @@ var app = (function () {
     var _module = "js/apiclient.js";
     var _hour;
     var _funcion;
-    var _seats = [[true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true]];
     var fun = null;
 
-    function _setCinemaName(cinema) {
-        _cinema = $("cinema");
-    }
-    ;
-
-    function _setDate(date) {
-        _date = $("date");
-    }
-    ;
-
-
-    function _map(functions) {
-        return mapList = functions.map(function (cinemaFunction) {
-            return {
-                nombre: cinemaFunction.movie.name,
-                genero: cinemaFunction.movie.genre,
-                hora: cinemaFunction.date.split(" ")[1]
-            }
-        })
-
-    }
-
     function _mapOneByOne(cinemaFunctions) {
-        //functions = _map(cinemaFunctions);
         $("#cines > tbody").empty();
         var tab = $("<table></table>")        
 
@@ -52,12 +28,6 @@ var app = (function () {
             $("#cines > tbody").append(column);            
         });
         $("#cines").append(tab);
-        /* functions.map(function (f) {            
-         var botonSillas = "<button class='btn btn-outline-primary' value='Open Seats' onclick = 'app.openSeats(\"" + f.nombre + '" , "' +
-         f.hora + "\")'>Open Seats</button>";
-         var fila = '<tr><td>' + f.nombre + '</td><td>' + f.genero + '</td><td>' + f.hora + '</td><td>' + botonSillas + '</tr>';
-         $("#cines > tbody").append(fila) 
-         }) */
     }
 
     function getFunctions() {
@@ -124,11 +94,6 @@ var app = (function () {
         ctx.beginPath();
     }
 
-    function saveUpdate() {
-        $.getScript(_module, function () {
-            apiclient.getFunctionByFunctionNameAndDate(_cinema, _date + " " + _hour, fun, update);
-        });
-    }
 
     function update() {
         fun.date = _date + " " + $("#hour").val();
@@ -146,12 +111,27 @@ var app = (function () {
         });
     }
 
+    function borrar() {
+		clearCanvas();
+        $.getScript(_module, function () {
+            apiclient.deleteFunction(_cinema, fun, _actualizar);
+        });
+    }
+
+    function crear() {
+		clearCanvas();
+        $.getScript(_module, function () {
+            apiclient.postFunction(_cinema, fun, _actualizar);
+        });
+    }
+
     return {
         getFunctions: getFunctions,
         openSeats: openSeats,
-        saveUpdate: saveUpdate,
         update: update,
-        clearCanvas: clearCanvas
+        borrar: borrar,
+        crear: crear
+
     };
 
 })();

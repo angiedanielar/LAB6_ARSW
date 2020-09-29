@@ -7,6 +7,7 @@ package edu.eci.arsw.cinema.model;
 
 import edu.eci.arsw.cinema.persistence.CinemaException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -117,4 +118,18 @@ public class Cinema {
         }
         throw new CinemaException("No exists a function with that movie name");
     }
+
+    public void deleteFunction(CinemaFunction function) {
+        int index=0;
+        Iterator<CinemaFunction> iterator = functions.iterator();
+        while(iterator.hasNext()){
+            CinemaFunction nextfunction = iterator.next();
+            if(nextfunction.getMovie().getName().equals(function.getMovie().getName())){
+                index=functions.indexOf(nextfunction);
+            }
+        }
+        functions.remove(index);
+    }
+
+
 }

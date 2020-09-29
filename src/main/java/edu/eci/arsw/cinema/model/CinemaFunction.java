@@ -6,10 +6,8 @@
 package edu.eci.arsw.cinema.model;
 
 import edu.eci.arsw.cinema.persistence.CinemaException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -73,5 +71,7 @@ public class CinemaFunction {
     @Override
     public String toString() {
         return "CinemaFunction{" + "movie=" + movie + ", date=" + date + '}';
-    }    
+    }
+
+
 }

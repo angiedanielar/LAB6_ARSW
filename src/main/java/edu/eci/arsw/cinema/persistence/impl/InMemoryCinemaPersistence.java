@@ -152,6 +152,23 @@ public class InMemoryCinemaPersistence implements CinemaPersitence {
     }
 
     @Override
+    public void deleteFunctionByCinemaAndFunction(Cinema name, CinemaFunction function) throws CinemaPersistenceException {
+        if (!cinemas.containsKey(name.getName())) {
+            throw new CinemaPersistenceException("El cinema no existe");
+        }
+        boolean deleted = false;
+        for (CinemaFunction cFunction : name.getFunctions()) {
+            if (cFunction.getMovie().getName().equals(function.getMovie().getName())) {
+                name.deleteFunction(function);
+                deleted = true;
+            }
+        }
+        if (!deleted) {
+            throw new CinemaPersistenceException("La pelicula no pertenece a ese cinema");
+        }
+    }
+
+    @Override
     public void saveCinema(Cinema c) throws CinemaPersistenceException {
         if (cinemas.containsKey(c.getName())) {
             throw new CinemaPersistenceException("The given cinema already exists: " + c.getName());

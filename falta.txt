@@ -1,0 +1,3 @@
+excepciones front, avisos.
+crear funcion.
+indicaciones readme. 

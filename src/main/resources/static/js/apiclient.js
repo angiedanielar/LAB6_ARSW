@@ -70,12 +70,37 @@ apiclient = (function () {
                 });
     }
 
+    function deleteFunction(cinema_name, f, callback) {
+        var cinemaFunction = JSON.stringify(f);
+        const promise = new Promise((resolve, reject) => {
+            $.ajax({
+                url: "/cinema/" + cinema_name,
+                type: 'DELETE',
+                data: cinemaFunction,
+                contentType: "application/json"
+            }).done(function () {
+                resolve('SUCCESS');
+            }).fail(function (msg) {
+                reject('FAIL');
+            });
+        });
+
+        promise
+            .then(res => {
+                callback();
+            })
+            .catch(error => {
+                alert(error);
+            });
+    }
+
     return {
         getFunctionsByCinema: getFunctionsByCinema,
         getFunctionsByCinemaAndDate: getFunctionsByCinemaAndDate,
         getFunctionByFunctionNameAndDate: getFunctionByFunctionNameAndDate,
         saveUpdateFunction: saveUpdateFunction,        
-        postFunction: postFunction
+        postFunction: postFunction,
+        deleteFunction: deleteFunction
 
     }
 

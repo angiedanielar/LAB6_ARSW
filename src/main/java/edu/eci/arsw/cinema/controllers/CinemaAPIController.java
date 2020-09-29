@@ -93,7 +93,6 @@ public class CinemaAPIController {
     //Métodos PUT
     @RequestMapping(value = "/{name}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateFunctionByName(@PathVariable String name, @RequestBody CinemaFunction function) {
-        System.out.println("Entró al método");
         if (function.getMovie() == null || function.getDate() == null) {
             return new ResponseEntity<>("Bad Request - Invalid Parameters", HttpStatus.BAD_REQUEST);
         }
@@ -107,6 +106,25 @@ public class CinemaAPIController {
             } else {
                 System.out.println("error aqui");
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);                
+            }
+        }
+    }
+
+    //Métodos DELETE
+    @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteFunctionByCinemaAndFunction(@PathVariable String name, @RequestBody CinemaFunction function) {
+        System.out.println("Entró al método");
+        try {
+            System.out.println("Entró al método1");
+            cinemaServices.deleteFunctionByCinemaAndFunction(cinemaServices.getCinemaByName(name), function);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (CinemaException ex) {
+            Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            if (ex.getMessage().equals("No existe el cine especificado")) {
+                return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+            } else {
+                System.out.println("error aqui");
+                return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
             }
         }
     }

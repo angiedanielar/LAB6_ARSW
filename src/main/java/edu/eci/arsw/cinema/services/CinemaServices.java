@@ -167,4 +167,13 @@ public class CinemaServices {
             throw new CinemaException(ex.getMessage(), ex);
         }
     }
+
+    public void deleteFunctionByCinemaAndFunction(Cinema name, CinemaFunction function) throws CinemaException {
+        try {
+            cps.deleteFunctionByCinemaAndFunction(name, function);
+            System.out.println("Entró al método2");
+        } catch (CinemaPersistenceException ex) {
+            throw new CinemaException(ex.getMessage(), ex);
+        }
+    }
 }
