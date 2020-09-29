@@ -1,4 +1,4 @@
-
+/**
 import edu.eci.arsw.cinema.model.Cinema;
 import edu.eci.arsw.cinema.model.CinemaFunction;
 import edu.eci.arsw.cinema.model.Movie;
@@ -19,6 +19,7 @@ import org.junit.Test;
  *
  * @author cristian
  */
+/**
 public class InMemoryPersistenceTest {
 
     @Test
@@ -210,3 +211,4 @@ public class InMemoryPersistenceTest {
     
     
 }
+*/

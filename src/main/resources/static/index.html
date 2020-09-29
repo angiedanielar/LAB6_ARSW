@@ -6,7 +6,7 @@
     <title>Cinema Booking ARSW</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet"
           href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css"/>
@@ -113,12 +113,12 @@
             <div id="newHour">
 
                 <p style="font-size:20px;font-style:italic;">Edit function: <input type="text" id="hour" style="font-size: medium" placeholder="Example: 17:00">
-                <button style="font-size: medium" class="btn btn-primary" onclick="app.saveUpdate()">Save/Update</button>
+                <button style="font-size: medium" class="btn btn-primary" onclick="app.update()">Save/Update</button>
             </p>
             </div>
 
             <div id="editFunction">
-                <button class="btn btn-primary">Create New Function</button>
+                <button class="btn btn-primary" onclick="app.clearCanvas()">Create New Function</button>
                 <button class="btn btn-primary">Delete Function</button>
             </div>
 

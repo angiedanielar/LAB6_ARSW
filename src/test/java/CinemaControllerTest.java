@@ -1,4 +1,4 @@
-
+/**
 import com.google.gson.Gson;
 import edu.eci.arsw.cinema.CinemaAPIApplication;
 import edu.eci.arsw.cinema.model.CinemaFunction;
@@ -98,3 +98,4 @@ public class CinemaControllerTest {
                 .andExpect(status().isBadRequest());
     }
 }
+*/

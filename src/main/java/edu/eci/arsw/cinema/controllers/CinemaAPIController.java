@@ -50,7 +50,7 @@ public class CinemaAPIController {
     }
 
     @RequestMapping(value = "/{name}/{date}", method = RequestMethod.GET)
-    public ResponseEntity<?> getFunctionsbyCinemaAndDate(@PathVariable String name, @PathVariable String date) {
+    public ResponseEntity<?> getFunctionsByCinemaAndDate(@PathVariable String name, @PathVariable String date) {
         try {
             return new ResponseEntity<>(cinemaServices.getFunctionsbyCinemaAndDate(name, date), HttpStatus.ACCEPTED);
         } catch (CinemaException ex) {
@@ -60,9 +60,9 @@ public class CinemaAPIController {
     }
 
     @RequestMapping(value = "/{name}/{date}/{moviename}", method = RequestMethod.GET)
-    public ResponseEntity<?> getFunctionsbyCinemaAndDateAndName(@PathVariable String name, @PathVariable String date, @PathVariable String moviename) {
+    public ResponseEntity<?> getFunctionByFunctionNameandDate(@PathVariable String name, @PathVariable String date, @PathVariable String moviename) {
         try {
-            return new ResponseEntity<>(cinemaServices.getFunctionbyCinemaAndDateAndMovie(name, date, moviename), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(cinemaServices.getFunctionByName(name, date, moviename), HttpStatus.ACCEPTED);
         } catch (CinemaException ex) {
             Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("No hay funciones con en ese nombre", HttpStatus.NOT_FOUND);
@@ -93,10 +93,11 @@ public class CinemaAPIController {
     //Métodos PUT
     @RequestMapping(value = "/{name}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateFunctionByName(@PathVariable String name, @RequestBody CinemaFunction function) {
+        System.out.println("Entró al método");
         if (function.getMovie() == null || function.getDate() == null) {
             return new ResponseEntity<>("Bad Request - Invalid Parameters", HttpStatus.BAD_REQUEST);
         }
-        try {
+        try {            
             cinemaServices.addNewFunctionByCinema(name, function);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (CinemaException ex) {
@@ -104,7 +105,8 @@ public class CinemaAPIController {
             if (ex.getMessage().equals("No existe el cine especificado")) {
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);            
             } else {
-                return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+                System.out.println("error aqui");
+                return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);                
             }
         }
     }

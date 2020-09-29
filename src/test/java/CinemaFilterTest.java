@@ -1,4 +1,4 @@
-
+/**
 import edu.eci.arsw.cinema.model.*;
 import edu.eci.arsw.cinema.persistence.*;
 import edu.eci.arsw.cinema.persistence.impl.InMemoryCinemaPersistence;
@@ -44,6 +44,7 @@ public class CinemaFilterTest {
     }*/
 
     //Prueba para @Qualifier("DisponibleFiltro") en CinemaServices
+/**
     @Test
     public void shouldFilterByGenre() throws CinemaException {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -67,3 +68,4 @@ public class CinemaFilterTest {
     }
 
 }
+* */
