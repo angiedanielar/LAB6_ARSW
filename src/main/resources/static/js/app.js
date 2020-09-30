@@ -9,23 +9,23 @@ var app = (function () {
 
     function _mapOneByOne(cinemaFunctions) {
         $("#cines > tbody").empty();
-        var tab = $("<table></table>")        
+        var tab = $("<table></table>")
 
         cinemaFunctions.forEach((f) => {
             console.log(f);
             var column = $("<tr>");
-            column.append($("<td>" +f.movie.name + "</td>"));
+            column.append($("<td>" + f.movie.name + "</td>"));
             column.append($("<td>" + f.movie.genre + "</td>"));
             column.append($("<td>" + f.date.split(" ")[1] + "</td>"));
-            var but = $("<button class='btn btn-outline-primary'>Open Seats</button>");            
+            var but = $("<button class='btn btn-outline-primary'>Open Seats</button>");
             var td = $("<td></tr>");
             td.append(but);
             column.append(td);
             but.click(() => {
                 fun = f;
-                openSeats(f.movie.name,f.date.split(" ")[0]);
+                openSeats(f.movie.name, f.date.split(" ")[0]);
             });
-            $("#cines > tbody").append(column);            
+            $("#cines > tbody").append(column);
         });
         $("#cines").append(tab);
     }
@@ -33,8 +33,12 @@ var app = (function () {
     function getFunctions() {
         _cinema = $("#cinema").val();
         _date = $("#date").val();
-        $("#cinemaSelected").text("Cinema Selected: " + _cinema);
-        apiclient.getFunctionsByCinemaAndDate(_cinema, _date, _mapOneByOne);
+        if (_cinema === "" || _date === "") {
+            alert("Cinema name and date are required");
+        } else {
+            $("#cinemaSelected").text("Cinema Selected: " + _cinema);
+            apiclient.getFunctionsByCinemaAndDate(_cinema, _date, _mapOneByOne);
+        }
     }
 
     function openSeats(functionName, hour) {
@@ -99,10 +103,14 @@ var app = (function () {
         fun.date = _date + " " + $("#hour").val();
         _hour = $("#hour").val();
         _date = $("#date").val();
-        console.log(fun);
-        $.getScript(_module, function () {
-            apiclient.saveUpdateFunction(_cinema, fun, _actualizar);
-        });
+        if (_hour === "") {
+            alert('Please specify an hour')
+        } else {
+            console.log(fun);
+            $.getScript(_module, function () {
+                apiclient.saveUpdateFunction(_cinema, fun, _actualizar);
+            });
+        }
     }
 
     function _actualizar() {
@@ -112,17 +120,22 @@ var app = (function () {
     }
 
     function borrar() {
-		clearCanvas();
+        clearCanvas();
         $.getScript(_module, function () {
             apiclient.deleteFunction(_cinema, fun, _actualizar);
         });
     }
 
     function crear() {
-		clearCanvas();
+        var seats = [[true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true]];
+        var movieName = $("#movieName").val();
+        var movieGenre = $("#movieGenre").val();
+        var date = _date + " " + $("#functionHour").val();
+        var f = {"movie": {"name": movieName, "genre": movieGenre}, "seats": seats, "date": date};
         $.getScript(_module, function () {
-            apiclient.postFunction(_cinema, fun, _actualizar);
+            apiclient.createFunction(_cinema, f, _actualizar);
         });
+        $('#create').modal('hide');
     }
 
     return {

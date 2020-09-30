@@ -33,6 +33,10 @@ apiclient = (function () {
                 type: 'PUT',
                 data: JSON.stringify(cinema_function),
                 contentType: "application/json"
+            }).done(function () {
+                resolve('Function hour updated');
+            }).fail(function (msg) {
+                reject('The hour was not specified');
             });
 
         promise
@@ -46,7 +50,7 @@ apiclient = (function () {
 
     }
 
-    function postFunction(cinema_name, f, callback) {
+    function createFunction(cinema_name, f, callback) {
         var cinemaFunction = JSON.stringify(f);
         const promise = new Promise((resolve, reject) => {
             $.ajax({
@@ -79,9 +83,9 @@ apiclient = (function () {
                 data: cinemaFunction,
                 contentType: "application/json"
             }).done(function () {
-                resolve('SUCCESS');
+                resolve('Function deleted');
             }).fail(function (msg) {
-                reject('FAIL');
+                reject('No function was selected');
             });
         });
 
@@ -99,7 +103,7 @@ apiclient = (function () {
         getFunctionsByCinemaAndDate: getFunctionsByCinemaAndDate,
         getFunctionByFunctionNameAndDate: getFunctionByFunctionNameAndDate,
         saveUpdateFunction: saveUpdateFunction,        
-        postFunction: postFunction,
+        createFunction: createFunction,
         deleteFunction: deleteFunction
 
     }

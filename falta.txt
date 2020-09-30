@@ -1,4 +1,2 @@
-excepciones generales en front, avisos.
 que no se dupliquen al actualizar.
-crear funcion, parte 2 conectar la vista con el post.
-indicaciones readme de como usar la app. 
+
